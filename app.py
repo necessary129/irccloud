@@ -13,6 +13,8 @@ import traceback
 import logging
 from os import environ
 
+log = logging.getLogger(__name__)
+
 class irccloud:
     """
     This is a very simple class that takes an user's irc user name
@@ -27,7 +29,7 @@ class irccloud:
         self.email = email
         self.password = password
         logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO)
-        self.log = logging.getLogger(__name__)
+        self.log = log
 
     def get_authentication_token(self):
         url = "https://www.irccloud.com/chat/auth-formtoken"
@@ -95,12 +97,15 @@ class irccloud:
 
 if __name__ == "__main__":
     try:
-        email = environ.get("IRCCLOUD_USERNAME")
-        password = environ.get("IRCCLOUD_PASSWORD")
-        irc = irccloud(email, password)
-        irc.runner()
+    	while True:
+            email = environ.get("IRCCLOUD_USERNAME")
+            password = environ.get("IRCCLOUD_PASSWORD")
+            irc = irccloud(email, password)
+            irc.runner()
+            log.debug("Sleeping for 1 hour")
+            time.sleep(360000)
     except KeyboardInterrupt:
-        self.log.debug("Shutdown requested. Exiting script. Thank you :)")
+        log.debug("Shutdown requested. Exiting script. Thank you :)")
         sys.exit(0)
     except Exception:
         traceback.print_exc(file=sys.stdout)
