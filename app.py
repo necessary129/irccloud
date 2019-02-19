@@ -28,7 +28,7 @@ class irccloud:
     def __init__(self, email, password):
         self.email = email
         self.password = password
-        logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO)
+        logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.DEBUG)
         self.log = log
 
     def get_authentication_token(self):
@@ -102,8 +102,8 @@ if __name__ == "__main__":
             password = environ.get("IRCCLOUD_PASSWORD")
             irc = irccloud(email, password)
             irc.runner()
-            log.debug("Sleeping for 1 hour")
-            time.sleep(360000)
+            log.info("Sleeping for 30 minutes")
+            time.sleep(1800)
     except KeyboardInterrupt:
         log.debug("Shutdown requested. Exiting script. Thank you :)")
         sys.exit(0)
